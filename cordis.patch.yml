@@ -1,0 +1,15 @@
+# dsh-plugin-balance bundle patch
+#
+# package.json 的 `dsh.bundle.patch` 指向本文件。`dsh plugin` 安装本包后，
+# reconcile 逻辑检测到 `dsh.bundle` 声明，会把本包加入 profile 的
+# `dsh.profile.bundles` 层列表；启动时 loader 按下面插入的行动态 import
+# `dsh-plugin-balance`（main 指向 dist/index.js），取命名导出 apply/inject/name。
+#
+# 注意：apiKey 不要写在这里（避免把密钥提交进仓库）。插件每次查询都会回退到
+# DEEPSEEK_API_KEY 环境变量；如确实要固定密钥，可在 profile 的
+# cordis.patch.yml 里按行 id `plugin-balance` 覆盖 config。
+- insert:
+    - id: plugin-balance
+      name: dsh-plugin-balance
+      config:
+        refreshInterval: 1800000
